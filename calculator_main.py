@@ -73,7 +73,6 @@ class Main(QDialog):
         layout_first_floor.addWidget(button_backspace)
 
         # %, 1/x, x^2, 제곱근 버튼 클릭 시 시그널 설정
-        button_modula.clicked.connect(self.button_modula_clicked)
         button_reciprocal.clicked.connect(self.button_reciprocal_clicked)
         button_multiple.clicked.connect(self.button_multiple_clicked)
         button_root.clicked.connect(self.button_root_clicked)
@@ -154,9 +153,6 @@ class Main(QDialog):
             current_number = float(equation)
             new_number = current_number * -1
             self.equation.setText(str(new_number))
-
-    def button_modula_clicked(self):
-        pass
 
     def button_reciprocal_clicked(self):
         equation = self.equation.text()
