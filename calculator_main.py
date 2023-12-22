@@ -50,7 +50,8 @@ class Main(QDialog):
             lambda state, operation="*": self.button_operation_clicked(operation))
         button_division.clicked.connect(
             lambda state, operation="/": self.button_operation_clicked(operation))
-
+        button_modula.clicked.connect(
+            lambda state, operation="%": self.button_operation_clicked(operation))
         # 사칙연산 버튼을 layout_number 레이아웃에 추가
         layout_number.addWidget(button_product, 0, 3)
         layout_number.addWidget(button_minus, 1, 3)
@@ -104,10 +105,9 @@ class Main(QDialog):
             lambda state, num=".": self.number_button_clicked(num))
         layout_number.addWidget(button_dot, 3, 2)
 
-        button_double_zero = QPushButton("+/-")
-        button_double_zero.clicked.connect(
-            lambda state, num="00": self.number_button_clicked(num))
-        layout_number.addWidget(button_double_zero, 3, 0)
+        button_turn = QPushButton("+/-")
+        button_turn.clicked.connect(self.button_turn_clicked)
+        layout_number.addWidget(button_turn, 3, 0)
 
         # 각 레이아웃을 main_layout 레이아웃에 추가
         main_layout.addLayout(layout_equation_solution)
@@ -123,8 +123,11 @@ class Main(QDialog):
     #################
     def number_button_clicked(self, num):
         equation = self.equation.text()
+        
+    
         equation += str(num)
         self.equation.setText(equation)
+        
 
     def button_operation_clicked(self, operation):
         equation = self.equation.text()
@@ -143,18 +146,38 @@ class Main(QDialog):
         equation = self.equation.text()
         equation = equation[:-1]
         self.equation.setText(equation)
+    
+    def button_turn_clicked(self):
+        equation = self.equation.text()
+        
+        if equation:
+            current_number = float(equation)
+            new_number = current_number * -1
+            self.equation.setText(str(new_number))
 
     def button_modula_clicked(self):
         pass
 
     def button_reciprocal_clicked(self):
-        pass
+        equation = self.equation.text()
+        if equation:
+            current_number = float(equation)
+            new_number = 1/current_number
+            self.equation.setText(str(new_number))
 
     def button_multiple_clicked(self):
-        pass
+        equation = self.equation.text()
+        if equation:
+            current_number = float(equation)
+            new_number = current_number ** 2
+            self.equation.setText(str(new_number))
 
     def button_root_clicked(self):
-        pass
+        equation = self.equation.text()
+        if equation:
+            current_number = float(equation)
+            new_number = current_number ** (1/2)
+            self.equation.setText(str(new_number))
 
 
 if __name__ == '__main__':
