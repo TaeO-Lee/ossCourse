@@ -14,6 +14,7 @@ class Main(QDialog):
         layout_clear_equal = QHBoxLayout()
         layout_number = QGridLayout()
         layout_equation_solution = QFormLayout()
+        layout_additional_button = QHBoxLayout()
 
         # 수식 입력과 답 출력을 위한 LineEdit 위젯 생성
         label_equation = QLabel("")
@@ -59,6 +60,24 @@ class Main(QDialog):
         layout_clear_equal.addWidget(button_backspace)
         layout_clear_equal.addWidget(button_equal)
 
+        # %, 1/x, x^2, 제곱근 버튼 생성
+        button_modula = QPushButton("%")
+        button_reciprocal = QPushButton("1/x")
+        button_multiple = QPushButton("x^2")
+        button_root = QPushButton("Root")
+
+        # %, 1/x, x^2, 제곱근 버튼 클릭 시 시그널 설정
+        button_modula.clicked.connect(self.button_modula_clicked)
+        button_reciprocal.clicked.connect(self.button_reciprocal_clicked)
+        button_multiple.clicked.connect(self.button_multiple_clicked)
+        button_root.clicked.connect(self.button_root_clicked)
+
+        # %, 1/x, x^2, 제곱근 버튼을 layout_additional_button 레이아웃에 추가
+        layout_additional_button.addWidget(button_modula)
+        layout_additional_button.addWidget(button_reciprocal)
+        layout_additional_button.addWidget(button_multiple)
+        layout_additional_button.addWidget(button_root)
+
         # 숫자 버튼 생성하고, layout_number 레이아웃에 추가
         # 각 숫자 버튼을 클릭했을 때, 숫자가 수식창에 입력 될 수 있도록 시그널 설정
         number_button_dict = {}
@@ -67,8 +86,10 @@ class Main(QDialog):
             number_button_dict[number].clicked.connect(lambda state, num=number:
                                                        self.number_button_clicked(num))
             if number > 0:
-                x, y = divmod(number-1, 3)
-                layout_number.addWidget(number_button_dict[number], x, y)
+                y = (number-1) % 3
+                x = 2 - (number - 1) // 3
+                layout_number.addWidget(
+                    number_button_dict[number], x, y)
             elif number == 0:
                 layout_number.addWidget(number_button_dict[number], 3, 1)
 
@@ -78,7 +99,7 @@ class Main(QDialog):
             lambda state, num=".": self.number_button_clicked(num))
         layout_number.addWidget(button_dot, 3, 2)
 
-        button_double_zero = QPushButton("00")
+        button_double_zero = QPushButton("+/-")
         button_double_zero.clicked.connect(
             lambda state, num="00": self.number_button_clicked(num))
         layout_number.addWidget(button_double_zero, 3, 0)
@@ -86,6 +107,7 @@ class Main(QDialog):
         # 각 레이아웃을 main_layout 레이아웃에 추가
         main_layout.addLayout(layout_equation_solution)
         main_layout.addLayout(layout_clear_equal)
+        main_layout.addLayout(layout_additional_button)
         main_layout.addLayout(layout_number)
 
         self.setLayout(main_layout)
@@ -116,6 +138,18 @@ class Main(QDialog):
         equation = self.equation.text()
         equation = equation[:-1]
         self.equation.setText(equation)
+
+    def button_modula_clicked(self):
+        pass
+
+    def button_reciprocal_clicked(self):
+        pass
+
+    def button_multiple_clicked(self):
+        pass
+
+    def button_root_clicked(self):
+        pass
 
 
 if __name__ == '__main__':
